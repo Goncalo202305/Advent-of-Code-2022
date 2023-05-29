@@ -1,3 +1,12 @@
+
+package day.pkg3;
+
+import java.util.Scanner;
+
+public class Day3 {
+
+    public static void main(String[] args) {
+
         String Jogador1[]=new String[3];
         String Jogador2[]=new String[3];
         
@@ -80,3 +89,5 @@
         {
             System.out.println(somaJ2);
         }
+    }
+}
