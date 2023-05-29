@@ -11,14 +11,14 @@ public class Day2 {
         
         int somaJ1=0, somaJ2=0;
         
-        Scanner ler=new Scanner (System.in);
+        Scanner s=new Scanner (System.in);
         
         int i;
         
         for (i=0; i<3; i++)
         {
             
-            String temp=ler.nextLine();
+            String temp=s.nextLine();
             String[] r = temp.split(" ");
 
             String tempJ1 = r[0];
@@ -88,5 +88,6 @@ public class Day2 {
         {
             System.out.println(somaJ2);
         }
-    }    
+    }
+    
 }
