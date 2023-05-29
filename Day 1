@@ -1,0 +1,43 @@
+
+package day1;
+
+import java.util.Scanner;
+
+public class day1 {
+
+    public static void main(String[] args) {
+        int e[] = new int[5]; //array para os 5 elfos
+        int i,   soma;
+        String temp;
+        
+        Scanner s=new Scanner(System.in);
+        
+         for (i=0; i<5; i++) //ciclo para 5 elfos
+        {
+            soma=0;
+            do //ciclo para pedir as calorias até dar o Enter e trocar de elfo
+            { 
+                temp=s.nextLine();
+                if (temp.trim().isEmpty()==false) //verifica se a variável está vazia (Enter)
+                {
+                    soma=soma+Integer.parseInt(temp);
+                }    
+
+            } 
+            while (temp.trim().isEmpty()==false);
+            e[i]=soma;
+        }
+        
+        //////////////////////////////////
+        
+        int max=0;
+        for (i=0; i<5; i++)
+        {
+            if (e[i]>max)
+            {
+                max=e[i];
+            }
+        }
+        System.out.println(max+"\n");
+    }   
+}
