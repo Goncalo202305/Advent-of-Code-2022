@@ -1,0 +1,58 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Day1 {
+    public static void main(String[] args) throws FileNotFoundException {
+        List<List<Integer>> elfos=new ArrayList<>();
+
+        File file=new File("input-day1.txt");
+        Scanner s=new Scanner(file);
+
+        List<Integer> tempElfos=new ArrayList<>(); 
+
+        while (s.hasNextLine()) 
+        {
+            String line=s.nextLine().trim();
+            
+            if (line.isEmpty()) 
+            {    
+                elfos.add(tempElfos);
+                tempElfos=new ArrayList<>();
+            } 
+            else 
+            {
+                int cal=Integer.parseInt(line);
+                tempElfos.add(cal);
+            }
+        }
+
+        elfos.add(tempElfos);
+
+        s.close();
+
+        List<Integer> totalCalPorElf=new ArrayList<>();
+        for (List<Integer> elf:elfos) 
+        {
+            int total=0;
+            for (int cal:elf) 
+            {
+                total=total+cal;
+            }
+            totalCalPorElf.add(total);
+        }
+
+        Collections.sort(totalCalPorElf, Collections.reverseOrder());
+
+        int somaTresElfos=0;
+        for (int i=0; i<Math.min(3, totalCalPorElf.size()); i++) {
+            somaTresElfos=somaTresElfos+totalCalPorElf.get(i);
+        }
+
+        System.out.println(somaTresElfos);
+    }
+}
+    
