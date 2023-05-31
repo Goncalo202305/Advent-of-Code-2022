@@ -1,0 +1,118 @@
+
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Day3 {
+    public static void main(String[] args) {
+
+        List<String> linhas=new ArrayList<>();
+        try (BufferedReader br=new BufferedReader(new FileReader("input-day3.txt"))) {
+            String linha;
+            while ((linha=br.readLine())!=null) 
+            {
+                linhas.add(linha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        int n=0; 
+        int tamm=0; 
+
+        List<String> temp2=new ArrayList<>();
+        List<String> temp3=new ArrayList<>();
+        List<char[]> array=new ArrayList<>();
+        List<char[]> array2=new ArrayList<>();
+        List<char[]> array3=new ArrayList<>(); 
+        
+        for (String l:linhas) 
+        {
+            String temp=l;
+            int flag=0;
+
+            if (!temp.isEmpty()) 
+            {
+                int tam=temp.length();
+                int met=tam/2;
+                temp2.add(temp.substring(met, tam)); 
+                temp3.add(temp.substring(0, met)); 
+                array.add(temp2.get(n).toCharArray()); 
+                array2.add(temp3.get(n).toCharArray()); 
+                array3.add(new char[met]); 
+
+                for (int i=0; i<met; i++) 
+                {
+                    for (int j=0; j<met; j++) 
+                    {
+                        if (String.valueOf(array.get(n)[i]).contains(String.valueOf(array2.get(n)[j]))) 
+                        {
+                            array3.get(n)[j]=array.get(n)[i];
+                            tamm=tamm+1; 
+                        }
+                    }
+                }
+                n=n+1;
+            }
+        }
+
+        for (int i=0; i<n; i++) 
+        {
+            Set<Character> uniqueChars=new HashSet<>();
+            for (char value:array3.get(i)) 
+            {
+                uniqueChars.add(value);
+            }
+            array3.set(i, new char[uniqueChars.size()]);
+            int cont=0;
+            for (char value:uniqueChars) 
+            {
+                array3.get(i)[cont++]=value;
+            }
+        }
+
+        int minusculas=0;
+        int maiusculas=0;
+        char[] amin="abcdefghijklmnopqrstuvwxyz".toCharArray(); 
+        char[] amai="ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
+        for (int i=0; i<n; i++) 
+        {
+            for (char v:array3.get(i)) 
+            {
+                if (ver(amai, v)) 
+                {
+                    int prioridade=v-38; 
+                    maiusculas=maiusculas+prioridade; 
+                } else if (ver(amin, v)) 
+                { 
+                    int prioridade=v-96; 
+                    minusculas=minusculas+prioridade;
+                }
+            }
+        }
+
+        int somaTotal=minusculas+maiusculas;
+
+        System.out.println("minúsculos: " + minusculas); 
+        System.out.println("maiúsculos: " + maiusculas);
+        System.out.println("soma total: " + somaTotal); 
+    }
+
+    private static boolean ver(char[] array, char value) {
+        for (char c:array) 
+        {
+            if (c==value) 
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
