@@ -1,0 +1,44 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Day4 {
+    public static void main(String[] args) {
+        List<String> pares=new ArrayList<>();
+
+        try (BufferedReader br=new BufferedReader(new FileReader("input-day4.txt"))) 
+        {
+            String linha;
+            while ((linha=br.readLine())!=null) 
+            {
+                pares.add(linha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int totalPares=0;
+        
+        int total=0;
+        boolean flag=false;
+
+        for (String linha:pares) 
+        {
+            String[] intervalos=linha.split(",");
+            int inicio1=Integer.parseInt(intervalos[0].split("-")[0]);
+            int fim1=Integer.parseInt(intervalos[0].split("-")[1]);
+            int inicio2=Integer.parseInt(intervalos[1].split("-")[0]);
+            int fim2=Integer.parseInt(intervalos[1].split("-")[1]);
+            
+            
+            if ((inicio1<=inicio2 && fim1>=inicio2) || (inicio2<=inicio1 && fim2>=inicio1)) 
+            {
+                totalPares=totalPares+1;
+            }
+        }
+
+        System.out.println(totalPares);
+    }
+}
