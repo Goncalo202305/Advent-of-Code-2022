@@ -1,0 +1,89 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+public class Day5 {
+    public static void main(String[] args) {
+        try {
+            String dados=new String(Files.readAllBytes(Paths.get("input-day5.txt")));
+            String[] partes=dados.split("\n\n");
+            List<Cmd> com=partes[1].lines().map(Cmd::anl).collect(Collectors.toList());
+            List<List<Character>> pilhas=lerPilhas(partes[0]);
+            exCmds(pilhas, com);
+            TopPilhas(pilhas);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void exCmds(List<List<Character>> pilhas, List<Cmd> com) {
+        com.forEach(c->c.ex(pilhas));
+    }
+
+    private static void TopPilhas(List<List<Character>> pilhas) {
+        System.out.println(pilhas.stream().map(l->l.isEmpty() ? "" : String.valueOf(l.get(0))).collect(Collectors.joining()));
+    }
+
+    private static List<List<Character>> lerPilhas(String desc) {
+        List<List<Character>> pilhas=new ArrayList<>();
+        for (int i=0; i<9; ++i) 
+        {
+            pilhas.add(new LinkedList<>());
+        }
+        var linhas=desc.lines().toList();
+        linhas=linhas.subList(0, linhas.size()-1);
+        for (var l:linhas) 
+        {
+            int j=0;
+            for (int i=1; i<38 && i<l.length(); i+=4, ++j) 
+            {
+                char c=l.charAt(i);
+                if (c!=' ') 
+                {
+                    pilhas.get(j).add(c);
+                }
+            }
+        }
+        return pilhas;
+    }
+
+    private static class Cmd {
+        private static final Pattern PATTERN=Pattern.compile("move (\\d+) from (\\d) to (\\d)");
+        private final int cont;
+        private final int de;
+        private final int para;
+
+        private Cmd(int cont, int de, int para) {
+            this.cont=cont;
+            this.de=de;
+            this.para=para;
+        }
+
+        private void ex(List<List<Character>> pilhas) {
+            List<Character> inicioPilha=pilhas.get(de);
+            List<Character> destinoPilha=pilhas.get(para);
+            
+            for (int i=0; i<cont; ++i) 
+            {
+                destinoPilha.add(0, inicioPilha.remove(0));
+            }
+        }
+
+        private static Cmd anl(String l) {
+            var matcher=PATTERN.matcher(l);
+            if (matcher.matches()) 
+            {
+                int cont=Integer.parseInt(matcher.group(1));
+                int de=Integer.parseInt(matcher.group(2))-1;
+                int para=Integer.parseInt(matcher.group(3))-1;
+                return new Cmd(cont, de, para);
+            }
+            throw new IllegalStateException("linha: '" + l + "' não coincide.");
+        }
+    }
+}
