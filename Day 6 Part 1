@@ -1,0 +1,55 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Day6 {
+    public static void main(String[] args) {
+        try (BufferedReader br=new BufferedReader(new FileReader("input-day6.txt"))) {
+            String l;
+            while ((l=br.readLine())!=null) 
+            {
+                int tam=l.length();
+                int res=-1;
+                String resu=null;
+                boolean flag=false;
+
+                for (int i=0; i<tam; i++) 
+                {
+                    for (int j=i; j<tam; j++) 
+                    {
+                        String temp=l.substring(j, j+1);
+
+                        if (resu!=null) 
+                        {
+                            if (resu.contains(temp)) 
+                            {
+                                resu=null;
+                                break;
+                            } else {
+                                resu=resu+temp;
+                            }
+                        } else {
+                            resu=temp;
+                        }
+
+                        if (resu!=null && resu.length()==4) 
+                        {
+                            res=j;
+                            flag=true;
+                            break;
+                        }
+                    }
+
+                    if (flag==true) 
+                    {
+                        break;
+                    }
+                }
+
+                System.out.println(res+1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
